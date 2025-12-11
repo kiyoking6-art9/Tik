@@ -1,0 +1,2 @@
+# Tik
+Mudah
