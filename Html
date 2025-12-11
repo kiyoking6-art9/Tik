@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Jadwal Pengecekan Proyek</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+        }
+
+        header {
+            background: #1d4ed8;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 900px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .profile {
+            text-align: center;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .profile img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid #1d4ed8;
+        }
+
+        .app-box {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 15px;
+            background: #1d4ed8;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        table, th, td {
+            border: 1px solid #aaa;
+        }
+
+        th, td {
+            padding: 10px;
+            background: white;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: #1d4ed8;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Aplikasi Jadwal Pengecekan Proyek</h1>
+        <p>Oleh Afkiyonaldi – Kelas XII-1</p>
+    </header>
+
+    <div class="container">
+        
+        <div class="profile">
+            <img src="profile.jpg" alt="Foto Profil">
+            <h2>Afkiyonaldi</h2>
+            <p>Kelas XII-1</p>
+        </div>
+
+        <div class="app-box">
+            <h2>Tambah Jadwal Pengecekan</h2>
+
+            <label>Nama Proyek</label>
+            <input type="text" id="project">
+
+            <label>Tanggal Pengecekan</label>
+            <input type="date" id="date">
+
+            <label>Catatan</label>
+            <input type="text" id="notes">
+
+            <button onclick="addSchedule()">Simpan Jadwal</button>
+
+            <h3>Daftar Jadwal</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Proyek</th>
+                        <th>Tanggal</th>
+                        <th>Catatan</th>
+                    </tr>
+                </thead>
+                <tbody id="scheduleTable"></tbody>
+            </table>
+        </div>
+
+        <div class="app-box">
+            <h2>Prompt Pembuatan Aplikasi</h2>
+            <p>
+                “Buatkan aplikasi website sederhana untuk mengatur jadwal pengecekan proyek 
+                dengan fitur input nama proyek, tanggal, dan catatan. Tampilkan data dalam tabel 
+                dan sertakan profil pembuat aplikasi.”
+            </p>
+        </div>
+
+        <div class="app-box">
+            <h2>Refleksi Pembuatan Aplikasi</h2>
+            <p>
+                Dalam membuat aplikasi ini, saya belajar bagaimana membuat struktur website 
+                menggunakan HTML, CSS, dan JavaScript sederhana. Fitur yang saya bangun cukup 
+                membantu untuk mencatat jadwal pengecekan proyek sehingga lebih teratur. 
+                Proses pembuatan ini juga melatih kemampuan saya dalam bidang teknik komputer 
+                dan pemrograman dasar.
+            </p>
+        </div>
+
+        <div class="app-box">
+            <h2>Rencana Pengembangan</h2>
+            <p>
+                Di masa mendatang, aplikasi ini akan dikembangkan dengan penambahan fitur:
+                <br>– Notifikasi otomatis
+                <br>– Penyimpanan data ke database
+                <br>– Login pengguna
+                <br>– Tampilan mobile yang lebih interaktif
+            </p>
+        </div>
+
+    </div>
+
+    <footer>
+        &copy; 2024 Afkiyonaldi – XII-1
+    </footer>
+
+<script>
+    // Ambil data dari localStorage
+    let schedules = JSON.parse(localStorage.getItem("schedules")) || [];
+
+    function saveToLocalStorage() {
+        localStorage.setItem("schedules", JSON.stringify(schedules));
+    }
+
+    function loadSchedules() {
+        const table = document.getElementById("scheduleTable");
+        schedules.forEach(item => {
+            const row = table.insertRow();
+            row.insertCell(0).innerText = item.project;
+            row.insertCell(1).innerText = item.date;
+            row.insertCell(2).innerText = item.notes;
+        });
+    }
+
+    function addSchedule() {
+        const project = document.getElementById("project").value;
+        const date = document.getElementById("date").value;
+        const notes = document.getElementById("notes").value;
+
+        if (!project || !date) {
+            alert("Mohon isi nama proyek dan tanggal.");
+            return;
+        }
+
+        const table = document.getElementById("scheduleTable");
+        const row = table.insertRow();
+        row.insertCell(0).innerText = project;
+        row.insertCell(1).innerText = date;
+        row.insertCell(2).innerText = notes;
+
+        // Simpan ke array
+        schedules.push({
+            project: project,
+            date: date,
+            notes: notes
+        });
+
+        // Simpan ke localStorage
+        saveToLocalStorage();
+
+        // Reset input
+        document.getElementById("project").value = "";
+        document.getElementById("date").value = "";
+        document.getElementById("notes").value = "";
+    }
+
+    // Load data saat halaman dibuka
+    window.onload = loadSchedules;
+</script>
+
+</body>
+</html>
